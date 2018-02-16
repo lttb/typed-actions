@@ -1,6 +1,6 @@
 /* @flow */
 
-import { handleActions as baseHandleActions } from 'redux-actions'
+import baseHandleActions from 'redux-actions/lib/handleActions'
 import { type Actions } from './types'
 
 const entries
@@ -19,7 +19,7 @@ export const createActions
   }), {})
 
 export const handleActions
-  = (handlers, defaultState = {}) => baseHandleActions((handlers: any), defaultState)
+  = (handlers, defaultState = {}) => baseHandleActions(handlers, defaultState)
 
 export const empty
   : (void) => void

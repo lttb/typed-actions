@@ -20,9 +20,10 @@
     "postbuild": "npm run cp:flow && npm run cp:meta",
     "cp:meta": "copyfiles -e '**/tests/**' package.json README.md LICENSE 'src/.*' -a -f lib",
     "cp:flow": "flow-copy-source -i '**/tests/*' src lib",
+    "lint": "npm run lint:eslint && npm run lint:flow",
     "lint:eslint": "./node_modules/.bin/eslint .",
     "lint:flow": "./node_modules/.bin/flow check",
-    "preversion": "npm run lint:eslint && npm run lint:flow",
+    "preversion": "npm run lint",
     "version": "npm run build",
     "postversion": "git push --follow-tags && npm publish lib",
     "precommit": "lint-staged"

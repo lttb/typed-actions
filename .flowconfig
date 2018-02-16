@@ -1,0 +1,10 @@
+[libs]
+flow-typed
+
+[lints]
+all=warn
+unclear-type=off
+
+[options]
+suppress_comment=\\(.\\|\n\\)*\\$ExpectError
+include_warnings=true

@@ -5,6 +5,7 @@ import { type Handlers, type Frozen, handleActions } from '../'
 import {
   type Actions,
 
+  TEST,
   INIT,
   UPDATE,
 } from './actions'
@@ -44,4 +45,28 @@ handleActions(({
     ...state,
     data: payload,
   }),
+}: Handlers<State, Actions>))
+
+handleActions(({
+  [TEST]: (state, action) => {
+    /* eslint-disable no-param-reassign */
+
+    /**
+     * $ExpectError
+     *
+     * Deep Immutable State
+     */
+    state.data.nestedData = 1
+
+    /**
+     * $ExpectError
+     *
+     * Deep Immutable action
+     */
+    action.data.nestedData = 'test'
+
+    /* eslint-enable no-param-reassign */
+
+    return state
+  },
 }: Handlers<State, Actions>))

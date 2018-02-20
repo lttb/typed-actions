@@ -26,7 +26,7 @@
     "preversion": "npm run lint",
     "version": "npm run build",
     "postversion": "git push --follow-tags && npm publish lib",
-    "precommit": "lint-staged"
+    "precommit": "npm run lint:flow && lint-staged"
   },
   "lint-staged": {
     "*.js": "./node_modules/.bin/eslint"

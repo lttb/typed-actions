@@ -13,10 +13,7 @@ type InnerFrozen =
     & (<V>(V) => V)
 
 
-type Action<T, Rest> = Frozen<{
-  ...$Exact<{type: T}>,
-  ...$Exact<Rest>,
-}>
+type Action<T, Rest> = Frozen<{type: T, ...$Exact<Rest>}>
 
 
 type MapActionData<A> = $ObjMap<A, ReturnType>
@@ -31,6 +28,6 @@ type MapAction<ActionArgsMap> = <K, V>(
 export type Actions<A> = $ObjMapi<MapActionData<A>, MapAction<MapActionArgs<A>>>
 
 
-type MapReducer<S> = <A>(A) => ($ReadOnly<S>, A) => $ReadOnly<S>
+type MapReducer<S> = <A>(A) => ($ReadOnly<S>, $ReadOnly<A>) => $ReadOnly<S>
 
 export type Handlers<S, A> = $Shape<$ObjMap<MapActionData<A>, MapReducer<S>>>

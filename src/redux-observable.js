@@ -15,7 +15,7 @@ export type Epic<S, A, D> = (
 
 class ActionObserable<A> extends Observable<A> {
     ofType: <T>(...keys: T) => ActionObserable<$ElementType<
-      $TupleMap<T, <V>(V) => $Call<ReturnType, $ElementType<A, V>>>,
+      $TupleMap<T, <V>(V) => $ReadOnly<$Call<ReturnType, $ElementType<A, V>>>>,
       number
     >>;
 }

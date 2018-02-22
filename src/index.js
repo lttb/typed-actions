@@ -1,7 +1,8 @@
 /* @flow */
 
+import { type Reducer } from 'redux-actions'
 import baseHandleActions from 'redux-actions/lib/handleActions'
-import { type Actions } from './types'
+import { type Actions, type Handlers } from './types'
 
 const entries
   : <T: Object>(T) => $TupleMap<$Keys<T>, <V: string>(V) => [V, $ElementType<T, V>]>
@@ -19,7 +20,8 @@ export const createActions
   }), {})
 
 export const handleActions
-  = (handlers, defaultState = {}) => baseHandleActions(handlers, defaultState)
+  : <S, A>(Handlers<S, A>, ?(S | {||})) => Reducer<S, A>
+  = (handlers, defaultState) => baseHandleActions(handlers, defaultState || {})
 
 export const empty
   : (void) => void

@@ -1,9 +1,10 @@
 /* @flow */
 
+import { type Reducer } from 'redux-actions'
+
 export type ArgumentType = <T, R>((T) => R) => T & T
 
 export type ReturnType = <T, R>(T => R) => R
-
 
 export type Frozen<V> = $ReadOnly<FrozenMapper<V>>
 type FrozenMapper<V> = $Exact<$ObjMap<V, InnerFrozen>>
@@ -16,18 +17,16 @@ type InnerFrozen =
 type Action<T, Rest> = Frozen<{type: T, ...$Exact<Rest>}>
 
 
-type MapActionData<A> = $ObjMap<A, ReturnType>
-type MapActionArgs<A> = $ObjMap<A, ArgumentType>
-
-
-type MapAction<ActionArgsMap> = <K, V>(
+type MapAction = <K, A, R, V, X: (A) => R>(
   actionType: K,
-  actionData: V
-) => (args: $ElementType<ActionArgsMap, K>) => Action<K, V>
+  actionCreator: X
+) => $Call<(A => R) => ((A) => Action<K, R>), X>
 
-export type Actions<A> = $ObjMapi<MapActionData<A>, MapAction<MapActionArgs<A>>>
+export type Actions<A> = $ObjMap<$ObjMapi<A, MapAction>, <A, R>((A & A) => R) => ((A) => R)>
 
 
-type MapReducer<S> = <A>(A) => ($ReadOnly<S>, $ReadOnly<A>) => $ReadOnly<S>
+type MapReducer<S> = <Args, ActionType>(
+    (...args: Args) => ActionType
+) => Reducer<$ReadOnly<S>, $Exact<{...$Exact<ActionType>}>>
 
-export type Handlers<S, A> = $Shape<$ObjMap<MapActionData<A>, MapReducer<S>>>
+export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<S>>>

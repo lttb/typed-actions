@@ -4,11 +4,12 @@ import { createActions, action, empty } from '../'
 
 let actions
 
-export const TEST = 'Namespace/TEST'
-export const INIT = 'Namespace/INIT'
-export const UPDATE = 'Namespace/UPDATE'
+export const TEST = '@namespace/TEST'
+export const INIT = '@namespace/INIT'
+export const UPDATE = '@namespace/UPDATE'
 
 export const {
+  [TEST]: test,
   [INIT]: init,
   [UPDATE]: update,
 } = actions = createActions({

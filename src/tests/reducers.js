@@ -63,10 +63,68 @@ handleActions(({
      *
      * Deep Immutable action
      */
-    action.data.nestedData = 'test'
+    action.payload.data.nestedData = 'test'
 
     /* eslint-enable no-param-reassign */
 
     return state
   },
 }: Handlers<State, Actions>))
+
+const reducer = handleActions(({
+  [UPDATE]: (state, { payload }) => ({
+    ...state,
+    anotherData: payload,
+  }),
+}: Handlers<State, Actions>))
+
+/**
+ * $ExpectError
+ *
+ * Incompatible State Types
+ */
+reducer({
+  data: {
+    nestedData: 2,
+  },
+}, {
+  type: UPDATE,
+  payload: 'test',
+})
+
+/**
+ * $ExpectError
+ *
+ * There is no action argument
+ */
+reducer({
+  data: {
+    nestedData: 2,
+  },
+  anotherData: 'test',
+})
+
+reducer({
+  data: {
+    nestedData: 2,
+  },
+  anotherData: 'test',
+}, {
+  type: UPDATE,
+  payload: 'test',
+})
+
+reducer({
+  data: {
+    nestedData: 2,
+  },
+  anotherData: 'test',
+}, {
+  type: UPDATE,
+  /**
+   * $ExpectError
+   *
+   * Incompatible Action Type
+   */
+  payload: 2,
+})

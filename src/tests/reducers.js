@@ -15,6 +15,7 @@ export type State = Frozen<{
       nestedData: number,
     },
     anotherData: string,
+    arrayData: $ReadOnlyArray<{test: string}>,
 }>;
 
 handleActions(({
@@ -65,6 +66,20 @@ handleActions(({
      */
     action.payload.data.nestedData = 'test'
 
+    /**
+     * $ExpectError
+     *
+     * It should keep ReadOnlyArray Type
+     */
+    state.arrayData[0] = { test: 'me' }
+
+    /**
+     * $ExpectError
+     *
+     * Deep Immutable ReadOnlyArray Item
+     */
+    state.arrayData[0].test = 'me'
+
     /* eslint-enable no-param-reassign */
 
     return state
@@ -109,6 +124,7 @@ reducer({
     nestedData: 2,
   },
   anotherData: 'test',
+  arrayData: [{ test: 'me' }],
 }, {
   type: UPDATE,
   payload: 'test',
@@ -119,6 +135,7 @@ reducer({
     nestedData: 2,
   },
   anotherData: 'test',
+  arrayData: [{ test: 'me' }],
 }, {
   type: UPDATE,
   /**
@@ -128,3 +145,17 @@ reducer({
    */
   payload: 2,
 })
+
+/**
+ * It should work with State as a primitive
+ */
+handleActions(({
+  [UPDATE]: state => state,
+}: Handlers<'a' | 'b' | '', Actions>), '')
+
+/**
+ * It should work with State as an array
+ */
+handleActions(({
+  [UPDATE]: state => state,
+}: Handlers<$ReadOnlyArray<number>, Actions>), [1, 2, 3])

@@ -17,10 +17,10 @@ type InnerFrozen =
 type Action<T, Rest> = Frozen<{type: T, ...$Exact<Rest>}>
 
 
-type MapAction = <K, A, R, V, X: (A) => R>(
+type MapAction = <K, A, R, V: (A) => R>(
   actionType: K,
-  actionCreator: X
-) => $Call<(A => R) => ((A) => Action<K, R>), X>
+  actionCreator: V
+) => $Call<(A => R) => ((A) => Action<K, R>), V>
 
 export type Actions<A> = $ObjMap<$ObjMapi<A, MapAction>, <A, R>((A & A) => R) => ((A) => R)>
 

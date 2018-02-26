@@ -10,7 +10,8 @@ export type Frozen<V> = $ReadOnly<FrozenMapper<V>>
 type FrozenMapper<V> = $Exact<$ObjMap<V, InnerFrozen>>
 type InnerFrozen =
     & (<V: Object>(V) => $ReadOnly<FrozenMapper<V>>)
-    & (<V: (Array<any> | $ReadOnlyArray<any>)>(V) => $TupleMap<V, InnerFrozen>)
+    & (<V: Array<any>>(V) => $TupleMap<V, InnerFrozen>)
+    & (<V: $ReadOnlyArray<any>>(V) => $TupleMap<V, InnerFrozen>)
     & (<V>(V) => V)
 
 

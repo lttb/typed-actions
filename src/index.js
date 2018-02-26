@@ -22,9 +22,9 @@ export const createActions
 export const handleActions
   = <S, A>(
     handlers: Handlers<S, A>,
-    defaultState: ?(S | {||}),
+    defaultState: ?(S | {}) = {},
   ): Reducer<S, $Values<$ObjMap<A, ReturnType>>> =>
-    baseHandleActions(handlers, defaultState || {})
+    baseHandleActions(handlers, defaultState)
 
 export const empty
   : (void) => void

@@ -22,7 +22,7 @@ export const createActions
 export const handleActions
   = <S, A>(
     handlers: Handlers<S, A>,
-    defaultState: ?(S | {}) = {},
+    defaultState: ?(S | {||}) = /* ::Object.freeze( */{}/* ::) */,
   ): Reducer<S, $Values<$ObjMap<A, ReturnType>>> =>
     baseHandleActions(handlers, defaultState)
 

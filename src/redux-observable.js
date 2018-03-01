@@ -2,7 +2,7 @@
 
 /* eslint-disable import/no-unresolved, import/extensions */
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import type { MiddlewareAPI } from 'redux'
 
 import { type ReturnType } from './types'

@@ -1,6 +1,6 @@
 /* @flow */
 
-import { type Reducer } from 'redux-actions'
+import type { Reducer } from 'redux-actions'
 
 export type ArgumentType = <T, R>((T) => R) => T & T
 

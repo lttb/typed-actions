@@ -11,6 +11,8 @@ module.exports = {
     'no-multi-assign': 'off',
     semi: ['error', 'never'],
 
+    'import/no-extraneous-dependencies': ['error', {optionalDependencies: true}],
+
     'flowtype/no-unused-expressions': 'error',
     'flowtype/generic-spacing': 'off',
   },

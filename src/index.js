@@ -1,8 +1,8 @@
 /* @flow */
 
-import { type Reducer } from 'redux-actions'
+import type { Reducer } from 'redux-actions'
 import baseHandleActions from 'redux-actions/lib/handleActions'
-import { type Actions, type Handlers, type ReturnType } from './types'
+import type { Actions, Handlers, ReturnType } from './types'
 
 const entries
   : <T: Object>(T) => $TupleMap<$Keys<T>, <V: string>(V) => [V, $ElementType<T, V>]>

@@ -1,14 +1,26 @@
 {
+  passPerPreset: true,
   presets: [
-    ['env', {
-      targets: {
-        browsers: ['last 2 versions'],
-      },
-    }],
-    'flow',
+    {
+      plugins: [
+        ['transform-runtime', {
+          regenerator: false,
+        }],
+      ],
+    },
+    {
+      passPerPreset: false,
+      presets: [
+        ['env', {
+          targets: {
+            browsers: ['last 2 versions'],
+          },
+        }],
+        'flow',
+      ],
+    },
   ],
   plugins: [
     'transform-object-rest-spread',
-    'transform-runtime',
   ],
 }

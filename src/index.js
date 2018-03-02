@@ -10,8 +10,6 @@ const entries
 
 const { assign } = Object
 
-export * from './types'
-
 export const createActions
   : <A: Object>(A) => Actions<A>
   = actions => entries(actions).reduce((acc, [type, actionCreator]) => ({
@@ -38,3 +36,5 @@ export function action(payload, meta) {
   return (meta !== undefined ? { payload, meta } : { payload })
 }
 /* eslint-enalbe no-redeclare */
+
+export * from './types'

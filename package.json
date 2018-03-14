@@ -52,9 +52,6 @@
   "dependencies": {
     "redux-actions": "^2.2.1"
   },
-  "peerDependencies": {
-    "redux": ">= 3.0.0"
-  },
   "optionalDependencies": {
     "rxjs": ">= 5.5.0"
   }

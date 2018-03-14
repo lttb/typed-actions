@@ -3,19 +3,21 @@
 /* eslint-disable import/no-unresolved, import/extensions */
 
 import { Observable } from 'rxjs/Observable'
-import type { MiddlewareAPI } from 'redux'
 
 import { type ReturnType } from './types'
 
-export type Epic<S, A, D> = (
-    action$: ActionObserable<A>,
-    store: MiddlewareAPI<S, A>,
+export type Epic<S, Actions, D> = (
+    action$: ActionObservable<
+        Actions,
+        $Values<$ObjMap<Actions, <V>(V) => $Call<ReturnType, V>>>
+    >,
+    store: {getState(): S},
     dependencies: D,
 ) => Observable<*>;
 
-class ActionObserable<A> extends Observable<A> {
-    ofType: <T>(...keys: T) => ActionObserable<$ElementType<
-      $TupleMap<T, <V>(V) => $ReadOnly<$Call<ReturnType, $ElementType<A, V>>>>,
+class ActionObservable<Actions, A> extends Observable<A> {
+    ofType: <T>(...keys: T) => ActionObservable<Actions, $ElementType<
+      $TupleMap<T, <V>(V) => $Call<ReturnType, $ElementType<Actions, V>>>,
       number
     >>;
 }

@@ -1,7 +1,5 @@
 /* @flow */
 
-import type { Reducer } from 'redux-actions'
-
 export type ArgumentType = <T, R>((T) => R) => T & T
 
 export type ReturnType = <T, R>(T => R) => R
@@ -31,6 +29,6 @@ type SafeExact =
 
 type MapReducer<S> = <Args, ActionType>(
     (...args: Args) => ActionType
-) => Reducer<$Call<SafeExact, S>, $Exact<{...$Exact<ActionType>}>>
+) => ($Call<SafeExact, S>, ActionType) => $Call<InnerFrozen, S>
 
 export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<S>>>

@@ -16,20 +16,20 @@
   "scripts": {
     "clean": "rimraf lib",
     "prebuild": "npm run clean",
-    "build": "BABEL_ENV=production ./node_modules/.bin/babel src --ignore '**/tests/**' --out-dir lib",
+    "build": "BABEL_ENV=production babel src --ignore '**/tests/**' --out-dir lib",
     "postbuild": "npm run cp:flow && npm run cp:meta",
     "cp:meta": "copyfiles -e '**/tests/**' package.json README.md LICENSE 'src/.*' -a -f lib",
     "cp:flow": "flow-copy-source -i '**/tests/*' src lib",
     "lint": "npm run lint:eslint && npm run lint:flow",
-    "lint:eslint": "./node_modules/.bin/eslint .",
-    "lint:flow": "./node_modules/.bin/flow check",
+    "lint:eslint": "eslint .",
+    "lint:flow": "flow check --include-warnings --show-all-errors --max-warnings 0",
     "preversion": "npm run lint",
     "version": "npm run build",
     "postversion": "git push --follow-tags && npm publish lib",
     "precommit": "npm run lint:flow && lint-staged"
   },
   "lint-staged": {
-    "*.js": "./node_modules/.bin/eslint"
+    "*.js": "eslint"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

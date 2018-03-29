@@ -29,12 +29,14 @@ export const empty
   = () => undefined
 
 /* eslint-disable no-redeclare */
-declare function action<P>(payload: P): {|payload: P|}
-declare function action<P, M>(payload: P, meta: M): {|payload: P, meta: M|}
+declare function actionResult<P>([P]): {|payload: P|}
+declare function actionResult<P, M>([P, M]): {|payload: P, meta: M|}
+
+declare function action<A, B, T>(...args: T): $Call<typeof actionResult, T>
 
 export function action(payload, meta) {
   return (meta !== undefined ? { payload, meta } : { payload })
 }
-/* eslint-enalbe no-redeclare */
+/* eslint-enable no-redeclare */
 
 export * from './types'

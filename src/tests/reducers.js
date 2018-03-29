@@ -23,7 +23,7 @@ handleActions(({
 
   [UPDATE]: (state, { payload }) => ({
     ...state,
-    anotherData: payload,
+    anotherData: payload || '',
   }),
 }: Handlers<State, Actions>))
 
@@ -89,7 +89,7 @@ handleActions(({
 const reducer = handleActions(({
   [UPDATE]: (state, { payload }) => ({
     ...state,
-    anotherData: payload,
+    anotherData: payload || '',
   }),
 }: Handlers<State, Actions>))
 

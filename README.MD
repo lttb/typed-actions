@@ -21,6 +21,8 @@ npm install typed-actions
 
 ## Usage
 
+> You can get some examples [here](https://github.com/lttb/typed-actions/tree/master/src/tests) with explanations.
+
 ### Actions
 
 - `action(payload, ?meta)` produces `{type, payload} | {type, payload, meta}`

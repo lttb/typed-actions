@@ -18,7 +18,7 @@ type Action<T: $Subtype<string>, Rest> = Frozen<{type: T, ...$Exact<Rest>}>
 /* eslint-disable no-redeclare */
 declare function locate<A, B, R>(
   (A | (B & void)) => R
-// a hack to get rid of extra unions without type loose
+// a hack to get rid of extra unions without type loss
 ): ($Either<A, void & null & empty> => R)
 
 declare function locate<A, R>(

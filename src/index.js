@@ -32,7 +32,7 @@ export const empty
 declare function actionResult<P>([P]): {|payload: P|}
 declare function actionResult<P, M>([P, M]): {|payload: P, meta: M|}
 
-declare function action<A, B, T>(...args: T): $Call<typeof actionResult, T>
+declare function action<T>(...args: T): $Call<typeof actionResult, T>
 
 export function action(payload, meta) {
   return (meta !== undefined ? { payload, meta } : { payload })

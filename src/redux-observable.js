@@ -2,22 +2,19 @@
 
 /* eslint-disable import/no-unresolved, import/extensions */
 
-import { Observable } from 'rxjs/Observable'
+import type { Observable } from 'rxjs/Observable'
 
-import { type ReturnType } from './types'
+import type { ReturnType } from './types'
 
 export type Epic<S, Actions, D> = (
-  action$: ActionObservable<
-    Actions,
-    $Values<$ObjMap<Actions, <V>(V) => $Call<ReturnType, V>>>
-  >,
+  action$: ActionObservable<Actions, *>,
   store: {getState(): S},
   dependencies: D,
 ) => Observable<*>;
 
-class ActionObservable<Actions, A> extends Observable<A> {
-  ofType: <T>(...keys: T) => ActionObservable<Actions, $ElementType<
-    $TupleMap<T, <V>(V) => $Call<ReturnType, $ElementType<Actions, V>>>,
-    number
-  >>;
+interface ActionObservable<Actions, A> extends Observable<A> {
+  ofType: <T: $Subtype<string>>(...args: T[]) => ActionObservable<
+    Actions,
+    $ElementType<$ObjMap<Actions, ReturnType>, T>
+  >;
 }

@@ -13,7 +13,7 @@ type InnerFrozen =
   & (<V>(V) => V)
 
 
-type Action<T, Rest> = {type: T, ...$Exact<Rest>}
+type Action<T: $Subtype<string>, Rest> = Frozen<{type: T, ...$Exact<Rest>}>
 
 /* eslint-disable no-redeclare */
 declare function locate<A, B, R>(
@@ -27,7 +27,7 @@ declare function locate<A, R>(
 /* eslint-enable no-redeclare */
 
 export type Actions<A> = $ObjMap<
-  $ObjMapi<A, <K, A, R>(K, (A) => R) => (A) => $Exact<{...Frozen<{type: K, ...$Exact<R>}>}>>,
+  $ObjMapi<A, <K, A, R>(K, (A) => R) => (A) => Action<K, R>>,
   typeof locate
 >
 
@@ -37,9 +37,6 @@ type SafeExact =
 
 type MapReducer<S> = <Args, ActionType>(
   (...args: Args) => ActionType
-) => (
-  $Call<SafeExact, S>,
-  $Call<<T, V: {type: T}>(V) => Action<T, $Rest<V, {|type: T|}>>, ActionType>
-) => $Call<InnerFrozen, S>
+) => ($Call<SafeExact, S>, ActionType) => $Call<InnerFrozen, S>
 
 export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<S>>>

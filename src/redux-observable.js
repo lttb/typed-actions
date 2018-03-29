@@ -4,8 +4,6 @@
 
 import type { Observable } from 'rxjs/Observable'
 
-import type { ReturnType } from './types'
-
 export type Epic<S, Actions, D> = (
   action$: ActionObservable<Actions, *>,
   store: {getState(): S},
@@ -15,6 +13,9 @@ export type Epic<S, Actions, D> = (
 interface ActionObservable<Actions, A> extends Observable<A> {
   ofType: <T: $Subtype<string>>(...args: T[]) => ActionObservable<
     Actions,
-    $ElementType<$ObjMap<Actions, ReturnType>, T>
+    /**
+     * Make Actions flatten by $Exact trick for the better readability in epics
+     */
+    $ElementType<$ObjMap<Actions, <T, R>(T => R) => $Exact<{...$Exact<R>}>>, T>
   >;
 }

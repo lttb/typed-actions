@@ -6,7 +6,7 @@ export type ReturnType = <T, R>(T => R) => R
 
 export type Frozen<V> = $ReadOnly<FrozenMapper<V>>
 type FrozenMapper<V> = $Exact<$ObjMap<V, InnerFrozen>>
-type InnerFrozen =
+export type InnerFrozen =
   & (<V: Object>(V) => $ReadOnly<FrozenMapper<V>>)
   & (<V: Array<any>>(V) => $TupleMap<V, InnerFrozen>)
   & (<V: $ReadOnlyArray<any>>(V) => $TupleMap<V, InnerFrozen>)
@@ -31,12 +31,12 @@ export type Actions<A> = $ObjMap<
   typeof locate
 >
 
-type SafeExact =
+export type SafeExact =
   & (<V: Object>(V) => $Exact<V>)
   & (<V>(V) => V)
 
-type MapReducer<S> = <Args, ActionType>(
-  (...args: Args) => ActionType
+type MapReducer<S> = <ActionType>(
+  (...args: any[]) => ActionType
 ) => ($Call<SafeExact, S>, ActionType) => $Call<InnerFrozen, S>
 
 export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<S>>>

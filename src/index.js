@@ -17,13 +17,6 @@ export const createActions
     [type]: data => assign({ type }, actionCreator(data)),
   }), {})
 
-export const handleActions
-  = <S, A>(
-    handlers: Handlers<S, A>,
-    defaultState: ?(S | {||}) = /* ::Object.freeze( */{}/* ::) */,
-  ): Reducer<S, $Values<$ObjMap<A, ReturnType>>> =>
-    baseHandleActions(handlers, defaultState)
-
 export const empty
   : (void) => void
   = () => undefined
@@ -36,6 +29,15 @@ declare function action<T>(...args: T): $Call<typeof actionResult, T>
 
 export function action(payload, meta) {
   return (meta !== undefined ? { payload, meta } : { payload })
+}
+
+declare function handleActions<S, A: {}>(
+  Handlers<S, A>,
+  ?(S | {||}),
+): Reducer<S, $Values<$ObjMap<A, ReturnType>>>
+
+export function handleActions(handlers, defaultState = {}) {
+  return baseHandleActions(handlers, defaultState)
 }
 /* eslint-enable no-redeclare */
 

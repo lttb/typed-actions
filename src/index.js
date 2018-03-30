@@ -2,43 +2,24 @@
 
 import type { Reducer } from 'redux-actions'
 import baseHandleActions from 'redux-actions/lib/handleActions'
-import type { Actions, Handlers, ReturnType } from './types'
+import type { InnerFrozen, Frozen } from './types'
 
-const entries
-  : <T: Object>(T) => $TupleMap<$Keys<T>, <V: string>(V) => [V, $ElementType<T, V>]>
-  = (Object.entries: any)
+export * from './types'
+export * from './actions'
 
-const { assign } = Object
+type MapReducer<S> = <ActionType>(
+  (...args: any[]) => ActionType
+) => (S, $Call<InnerFrozen, ActionType>) => S
 
-export const createActions
-  : <A: Object>(A) => Actions<A>
-  = actions => entries(actions).reduce((acc, [type, actionCreator]) => ({
-    ...acc,
-    [type]: data => assign({ type }, actionCreator(data)),
-  }), {})
-
-export const empty
-  : (void) => void
-  = () => undefined
+export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<InnerFrozen, S>>>>
 
 /* eslint-disable no-redeclare */
-declare function actionResult<P>([P]): {|payload: P|}
-declare function actionResult<P, M>([P, M]): {|payload: P, meta: M|}
-
-declare function action<T>(...args: T): $Call<typeof actionResult, T>
-
-export function action(payload, meta) {
-  return (meta !== undefined ? { payload, meta } : { payload })
-}
-
 declare function handleActions<S, A: {}>(
   Handlers<S, A>,
   ?(S | {||}),
-): Reducer<S, $Values<$ObjMap<A, ReturnType>>>
+): Reducer<S, $Values<$ObjMap<A, <T, R>(T => R) => Frozen<R>>>>
 
 export function handleActions(handlers, defaultState = {}) {
   return baseHandleActions(handlers, defaultState)
 }
 /* eslint-enable no-redeclare */
-
-export * from './types'

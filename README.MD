@@ -113,10 +113,10 @@ import {
 /**
  * Declare State for the reducer with immutable type Frozen
  */
-export type State = Frozen<{
+export type State = {
     data: string[],
     status: 'done' | 'pending' | 'failed',
-}>;
+};
 
 /**
  * Use Handlers Type for the type-casting.
@@ -125,7 +125,7 @@ export type State = Frozen<{
 export default handleActions(({
     /**
      * No need to point the State Type in arguments,
-     * it would be auto-inferred
+     * it would be auto-inferred Deep Immutable Type of State
      */
     [UPDATE]: state => ({
         ...state,

@@ -20,7 +20,9 @@ declare function handleActions<S, A: {}>(
 
 export function handleActions(handlers, defaultState = {}) {
   return (state = defaultState, action) => produce(state, (draft) => {
-    if (handlers[action.type]) handlers[action.type](draft, action, state)
+    if (!handlers[action.type]) return undefined
+
+    return handlers[action.type](draft, action, state)
   })
 }
 /* eslint-enable no-redeclare */

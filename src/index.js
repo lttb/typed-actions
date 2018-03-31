@@ -7,9 +7,7 @@ import type { InnerFrozen, Frozen } from './types'
 export * from './types'
 export * from './actions'
 
-type MapReducer<S> = <ActionType>(
-  (...args: any) => ActionType
-) => (S, $Call<InnerFrozen, ActionType>) => S
+type MapReducer<S> = <A>((...args: any) => A) => (S, {...$Exact<Frozen<A>>}) => S
 
 export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<InnerFrozen, S>>>>
 

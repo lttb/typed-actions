@@ -55,7 +55,7 @@ declare function locate<A, R>(
 ): (A => R)
 /* eslint-enable no-redeclare */
 
-export type Actions<A> = $ObjMap<$ObjMapi<A, <
+export type Actions<Collection> = $ObjMap<$ObjMapi<Collection, <
   K, V, R, A, B, C,
 >(K, V) => $Call<
   & (((A) => R) => (A) => Action<K, R>)

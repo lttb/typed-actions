@@ -8,7 +8,7 @@ export * from './types'
 export * from './actions'
 
 type MapReducer<S> = <ActionType>(
-  (...args: any[]) => ActionType
+  (...args: any) => ActionType
 ) => (S, $Call<InnerFrozen, ActionType>) => S
 
 export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<InnerFrozen, S>>>>
@@ -17,7 +17,7 @@ export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<InnerFrozen, S>>
 declare function handleActions<S, A: {}>(
   Handlers<S, A>,
   ?(S | {||}),
-): Reducer<S, $Values<$ObjMap<A, <T, R>(T => R) => Frozen<R>>>>
+): Reducer<S, $Values<$ObjMap<A, <T, R>((...args: T) => R) => Frozen<R>>>>
 
 export function handleActions(handlers, defaultState = {}) {
   return baseHandleActions(handlers, defaultState)

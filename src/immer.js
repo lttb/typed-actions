@@ -16,7 +16,7 @@ export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<SafeExact, S>>>>
 declare function handleActions<S, A: {}>(
   Handlers<S, A>,
   ?(S | {||})
-): Reducer<S, $Values<$ObjMap<A, <T, R>(T => R) => Frozen<R>>>>
+): Reducer<S, $Values<$ObjMap<A, <T, R>((...args: T) => R) => Frozen<R>>>>
 
 export function handleActions(handlers, defaultState = {}) {
   return (state = defaultState, action) => produce(state, (draft) => {

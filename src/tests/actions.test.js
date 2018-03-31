@@ -6,11 +6,29 @@ import {
   update,
   union,
   inter,
+  arity2,
+  arity3,
 } from './actions'
 
 /**
  * ActionCreator interface tests
  */
+
+arity2(true, false)
+/**
+  * $ExpectError
+  *
+  * Incompatible arguments type
+  */
+arity2('true', 'false')
+
+arity3(true, false, true)
+/**
+  * $ExpectError
+  *
+  * Incompatible arguments type
+  */
+arity3('true', 'false', 'true')
 
 inter({ a: 1, b: 1 })
 inter({ x: 1 })

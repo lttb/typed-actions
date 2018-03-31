@@ -1,9 +1,6 @@
 [version]
 >=0.65.0
 
-[libs]
-flow-typed
-
 [lints]
 all=warn
 unclear-type=off

@@ -12,6 +12,7 @@ Some Types and Utils (based on [redux-actions](https://github.com/reduxactions/r
 - Safe types and functions, which help to reduce risks for Type mistakes
 - Accurate Type-errors handling
 - Deep immutable Type (`Frozen`) for actions and redux state
+- [Immer](https://github.com/mweststrate/immer) support
 
 ## Installation
 
@@ -22,6 +23,11 @@ npm install typed-actions
 ## Usage
 
 > You can get some examples [here](https://github.com/lttb/typed-actions/tree/master/src/tests) with explanations.
+
+- [Actions](#actions)
+- [Reducers](#reducers)
+  - [Immer](#immer)
+- [Epics](#epics)
 
 ### Actions
 
@@ -107,10 +113,10 @@ import {
 /**
  * Declare State for the reducer with immutable type Frozen
  */
-export type State = Frozen<{
+export type State = {
     data: string[],
     status: 'done' | 'pending' | 'failed',
-}>;
+};
 
 /**
  * Use Handlers Type for the type-casting.
@@ -119,7 +125,7 @@ export type State = Frozen<{
 export default handleActions(({
     /**
      * No need to point the State Type in arguments,
-     * it would be auto-inferred
+     * it would be auto-inferred Deep Immutable Type of State
      */
     [UPDATE]: state => ({
         ...state,
@@ -140,6 +146,43 @@ export default handleActions(({
         ...state,
         status: 'failed',
     }),
+}: Handlers<State, Actions>));
+```
+
+#### Immer
+
+You can use [immer](https://github.com/mweststrate/immer) for immutable state modifying.
+
+> Note that `handler` accepts 3 arguments: `draft state` (for changes), `action` and `current state`.
+
+```js
+import { type Handlers, handleActions } from 'typed-actions/immer'
+
+import {
+    type Actions,
+    UPDATE,
+    UPDATE_FULFILLED,
+    UPDATE_FAILED,
+} from './actions';
+
+export type State = {
+    data: string[],
+    status: 'done' | 'pending' | 'failed',
+};
+
+export default handleActions(({
+    [UPDATE]: state => {
+        state.status = 'pending'
+    },
+
+    [UPDATE_FULFILLED]: (state, {payload}) => {
+        state.data = payload
+        state.status = 'done'
+    }),
+
+    [UPDATE_FAILED]: state => {
+        state.status = 'failed'
+    },
 }: Handlers<State, Actions>));
 ```
 

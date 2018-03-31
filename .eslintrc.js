@@ -12,6 +12,7 @@ module.exports = {
     semi: ['error', 'never'],
 
     'import/no-extraneous-dependencies': ['error', {optionalDependencies: true}],
+    'import/prefer-default-export': 'off',
 
     'flowtype/no-unused-expressions': 'error',
     'flowtype/generic-spacing': 'off',

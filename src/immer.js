@@ -10,11 +10,25 @@ type MapReducer<S> = <ActionType>(
   (...args: any[]) => ActionType
 ) => (S, ActionType, $Call<InnerFrozen, S>) => (void | S)
 
-export type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<SafeExact, S>>>>
+type Handlers<S, A> = $Shape<$ObjMap<A, MapReducer<$Call<SafeExact, S>>>>
+
+/**
+ * There is an issue with imports ordering.
+ *
+ * When you export types A and B (that uses A), if you'll import type B before the A,
+ * there will be some strange issues in some cases.
+ *
+ * This way we 'bound' the type declared in file to force flow use the correct type.
+ *
+ * TODO: (@lttb) need to open a @flowtype issue with a simple example.
+ */
+type _Handlers<S, A> = Handlers<S, A>
+export type { _Handlers as Handlers }
+
 
 /* eslint-disable no-redeclare */
 declare function handleActions<S, A: {}>(
-  Handlers<S, A>,
+  _Handlers<S, A>,
   ?(S | {||})
 ): Reducer<S, $Values<$ObjMap<A, <T, R>((...args: T) => R) => Frozen<R>>>>
 

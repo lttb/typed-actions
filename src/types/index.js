@@ -23,7 +23,9 @@ declare function arguments<A, B, C>((A, B, C) => any): [A, B, C]
 export type Arguments<T> = $Call<typeof arguments, T>
 
 /**
- * A function to locate errors well
+ * A function to locate errors well after $ObjMap.
+ *
+ * @see https://github.com/facebook/flow/issues/5785
  */
 declare function locate<A, B, R>((
   A | (B & void),

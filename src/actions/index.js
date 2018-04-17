@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Actions } from './types'
+import type { Actions } from '../types'
 
 const entries
   : <T: Object>(T) => $TupleMap<$Keys<T>, <V: string>(V) => [V, $ElementType<T, V>]>

@@ -4,7 +4,7 @@
 
 import type { Observable } from 'rxjs/Observable'
 
-export type Epic<S, Actions, D> = (
+export type Epic<S, Actions, D = null> = (
   action$: ActionObservable<Actions, *>,
   store: {getState(): S},
   dependencies: D,

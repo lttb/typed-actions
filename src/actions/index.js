@@ -12,7 +12,7 @@ export const createActions
   : <A: Object>(A) => Actions<A>
   = actions => entries(actions).reduce((acc, [type, actionCreator]) => ({
     ...acc,
-    [type]: data => assign({ type }, actionCreator(data)),
+    [type]: (...args) => assign({ type }, actionCreator(...args)),
   }), {})
 
 export const empty

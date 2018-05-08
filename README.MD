@@ -191,7 +191,7 @@ export default handleActions(({
 If you're using [redux-observable](https://github.com/redux-observable/redux-observable), this Epic Type could be useful.
 
 ```js
-import type {Epic} from 'typed-actions';
+import type {Epic} from 'typed-actions/redux-observable';
 
 import {
     type Actions,
@@ -223,4 +223,28 @@ export const unionEpic: Epic<State, Actions> = action$ => action$
             console.log(action.payload)
         }
     });
+```
+
+Just to note, if you're using `dependencies` in epics, you can pass its type in as the third argument.
+
+```js
+type Dependencies = {api: () => void}
+
+export const epic: Epic<State, Actions, Dependencies> = action$ => action$
+```
+
+The recommended way is to redeclare your own `Epic` type with custom dependencies and use it, like:
+
+```js
+// types.js
+import type {Epic} from 'typed-actions/redux-observable'
+
+type Dependencies = {api: () => void}
+
+export type Epic<S, A, D = Dependencies> = Epic<S, A, D>
+
+// epics.js
+import type {Epic} from './types'
+
+export const epic: Epic<State, Actions> = action$ => action$
 ```

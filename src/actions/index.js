@@ -28,4 +28,13 @@ declare function action<T>(...args: T): $Call<typeof actionResult, T>
 export function action(payload, meta) {
   return (meta !== undefined ? { payload, meta } : { payload })
 }
+
+declare function errorResult<P>([P]): {|payload: P, error: true|}
+declare function errorResult<P, M>([P, M]): {|payload: P, error: true, meta: M|}
+
+declare function error<T>(...args: T): $Call<typeof errorResult, T>
+
+export function error(payload, meta) {
+  return (meta !== undefined ? { payload, error: true, meta } : { payload, error: true })
+}
 /* eslint-enable no-redeclare */

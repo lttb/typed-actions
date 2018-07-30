@@ -8,6 +8,8 @@ import {
   inter,
   arity2,
   arity3,
+  errorAction,
+  errorMetaAction,
 } from './actions'
 
 /**
@@ -92,3 +94,39 @@ update('test')
  * Incompatible argument type
  */
 update(1)
+
+{
+  /**
+   * $ExpectError
+   *
+   * Incompatible argument type
+   */
+  errorAction(1)
+
+  /**
+   * $ExpectError
+   *
+   * Incompatible argument type
+   */
+  errorMetaAction(1)
+
+
+  const err = errorAction('test')
+  const errMeta = errorMetaAction('test');
+
+  (err: {error: true, payload: string});
+  /**
+   * $ExpectError
+   *
+   * 'error' prop should be true
+   */
+  (err: {error: false, payload: string});
+
+  (errMeta: {error: true, payload: string, meta: {someData: true}});
+  /**
+   * $ExpectError
+   *
+   * 'meta' prop should be {someData: true}
+   */
+  (errMeta: {error: true, payload: string, meta: {someData: false}})
+}

@@ -30,9 +30,12 @@ npm install typed-actions
 - [Epics](#epics)
 
 ### Actions
+Actions are compatible with [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action)
 
 - `action(payload, ?meta)` produces `{type, payload} | {type, payload, meta}`
+- `error(payload, ?meta)` produces `{type, payload, error: true} | {type, payload, meta, error: true}`
 - `empty()` produces `{type}`
+
 
 ```js
 import {createActions, action, empty} from 'typed-actions'

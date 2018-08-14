@@ -114,7 +114,7 @@ import {
 } from './actions';
 
 /**
- * Declare State for the reducer with immutable type Frozen
+ * Declare State for the reducer
  */
 export type State = {
     data: string[],

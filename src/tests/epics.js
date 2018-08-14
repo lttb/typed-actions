@@ -5,7 +5,7 @@ import { type Actions, INIT, UPDATE } from './actions'
 import { type State } from './reducers'
 
 const testEpic
-    : Epic<State, Actions, null>
+    : Epic<State, Actions>
     = action$ => action$
       .ofType(INIT, UPDATE)
       .map((action) => {

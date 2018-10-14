@@ -4,6 +4,7 @@ export type ArgumentType = <T, R>((T) => R) => T & T
 
 export type ReturnType = <T, R>((...args: T) => R) => R
 
+/* eslint-disable no-use-before-define */
 export type Frozen<V> = $ReadOnly<FrozenMapper<V>>
 type FrozenMapper<V> = $Exact<$ObjMap<V, InnerFrozen>>
 export type InnerFrozen =
@@ -11,7 +12,7 @@ export type InnerFrozen =
   & (<V: Array<any>>(V) => $TupleMap<V, InnerFrozen>)
   & (<V: $ReadOnlyArray<any>>(V) => $TupleMap<V, InnerFrozen>)
   & (<V>(V) => V)
-
+/* eslint-enable no-use-before-define */
 
 type Action<T: $Subtype<string>, Rest> = {|type: T, ...$Exact<Rest>|}
 

@@ -1,6 +1,11 @@
 /* @flow */
 
-import { createActions, action, empty, error } from '../'
+import {
+  createActions,
+  action,
+  empty,
+  error,
+} from '..'
 
 import type { A, B } from './types'
 

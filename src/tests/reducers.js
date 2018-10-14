@@ -1,6 +1,6 @@
 /* @flow */
 
-import { type Handlers, type Frozen, handleActions } from '../'
+import { type Handlers, type Frozen, handleActions } from '..'
 
 import {
   type Actions,

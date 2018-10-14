@@ -10,7 +10,37 @@ import {
   arity3,
   errorAction,
   errorMetaAction,
+  opaqueArity3,
 } from './actions'
+
+import type { A, B } from './types'
+
+{
+  declare var a: A
+  declare var b: B
+
+  /**
+   * It should not have errors
+   */
+  const x = opaqueArity3(a, b, 100);
+
+  (x.payload: {
+    a: A,
+    b: B,
+    c: number
+  });
+
+  /**
+   * $ExpectError
+   *
+   * It should error with opaque type A
+   */
+  (x.payload: {
+    a: string,
+    b: B,
+    c: number
+  })
+}
 
 /**
  * ActionCreator interface tests
@@ -24,7 +54,8 @@ arity2(true, false)
   */
 arity2('true', 'false')
 
-arity3(true, false, true)
+arity3(true, { x: 1 }, 'x')
+
 /**
   * $ExpectError
   *

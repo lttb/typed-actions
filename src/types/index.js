@@ -4,6 +4,7 @@ export type ArgumentType = <T, R>((T) => R) => T & T
 
 export type ReturnType = <T, R>((...args: T) => R) => R
 
+/* eslint-disable no-use-before-define */
 export type Frozen<V> = $ReadOnly<FrozenMapper<V>>
 type FrozenMapper<V> = $Exact<$ObjMap<V, InnerFrozen>>
 export type InnerFrozen =
@@ -11,7 +12,7 @@ export type InnerFrozen =
   & (<V: Array<any>>(V) => $TupleMap<V, InnerFrozen>)
   & (<V: $ReadOnlyArray<any>>(V) => $TupleMap<V, InnerFrozen>)
   & (<V>(V) => V)
-
+/* eslint-enable no-use-before-define */
 
 type Action<T: $Subtype<string>, Rest> = {|type: T, ...$Exact<Rest>|}
 
@@ -27,20 +28,6 @@ export type Arguments<T> = $Call<typeof arguments, T>
  *
  * @see https://github.com/facebook/flow/issues/5785
  */
-declare function locate<A, B, R>((
-  A | (B & void),
-) => R): ((
-  // a hack to get rid of extra unions without type loss
-  A | (void & null & empty),
-) => R)
-
-declare function locate<A, B, C, D, R>((
-  A | (B & void),
-  C | (D & void),
-) => R): ((
-  A | (void & null & empty),
-  C | (void & null & empty),
-) => R)
 
 declare function locate<A, B, C, D, E, F, R>((
   A | (B & void),
@@ -52,6 +39,21 @@ declare function locate<A, B, C, D, E, F, R>((
   E | (void & null & empty),
 ) => R)
 
+declare function locate<A, B, C, D, R>((
+  A | (B & void),
+  C | (D & void),
+) => R): ((
+  A | (void & null & empty),
+  C | (void & null & empty),
+) => R)
+
+declare function locate<A, B, R>((
+  A | (B & void),
+) => R): ((
+  // a hack to get rid of extra unions without type loss
+  A | (void & null & empty),
+) => R)
+
 declare function locate<A, R>(
   A => R,
 ): (A => R)
@@ -60,9 +62,9 @@ declare function locate<A, R>(
 export type Actions<Collection> = $ObjMap<$ObjMapi<Collection, <
   K, V, R, A, B, C,
 >(K, V) => $Call<
-  & (((A) => R) => (A) => Action<K, R>)
-  & (((A, B) => R) => (A, B) => Action<K, R>)
-  & (((A, B, C) => R) => (A, B, C) => Action<K, R>)
+  & (((...args: [A, B, C]) => R) => (A, B, C) => Action<K, R>)
+  & (((...args: [A, B]) => R) => (A, B) => Action<K, R>)
+  & (((...args: [A]) => R) => (A) => Action<K, R>)
 , V>>, typeof locate>
 
 export type SafeExact =

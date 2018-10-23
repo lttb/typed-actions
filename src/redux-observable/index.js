@@ -4,12 +4,6 @@
 
 import type { Observable } from 'rxjs/Observable'
 
-export type Epic<S, Actions, D = null> = (
-  action$: ActionObservable<Actions, *>,
-  store: {getState(): S},
-  dependencies: D,
-) => Observable<*>;
-
 interface ActionObservable<Actions, A> extends Observable<A> {
   ofType: <T: $Subtype<string>>(...args: T[]) => ActionObservable<
     Actions,
@@ -19,3 +13,9 @@ interface ActionObservable<Actions, A> extends Observable<A> {
     $ElementType<$ObjMap<Actions, <T, R>(T => R) => $Exact<{...$Exact<R>}>>, T>
   >;
 }
+
+export type Epic<S, Actions, D = null> = (
+  action$: ActionObservable<Actions, *>,
+  store: {getState(): S},
+  dependencies: D,
+) => Observable<*>;

@@ -16,6 +16,8 @@ module.exports = {
 
     'flowtype/no-unused-expressions': 'error',
     'flowtype/generic-spacing': 'off',
+    'flowtype/space-before-type-colon': 'off',
+    'operator-linebreak': 'off',
   },
 
   plugins: ['flowtype'],

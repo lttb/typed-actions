@@ -1,5 +1,22 @@
 # Changelog
 
+## [v0.10.0](https://github.com/lttb/typed-actions/tree/v0.10.0) (2018-10-23)
+
+[Full Changelog](https://github.com/lttb/typed-actions/compare/v0.9.2-0...v0.10.0)
+
+**Merged pull requests:**
+
+- Add types ActionOf and ActionsOf [\#12](https://github.com/lttb/typed-actions/pull/12) ([lttb](https://github.com/lttb))
+- Fix functions polymorphism order [\#11](https://github.com/lttb/typed-actions/pull/11) ([lttb](https://github.com/lttb))
+
+## [v0.9.2-0](https://github.com/lttb/typed-actions/tree/v0.9.2-0) (2018-10-14)
+
+[Full Changelog](https://github.com/lttb/typed-actions/compare/v0.9.1...v0.9.2-0)
+
+## [v0.9.1](https://github.com/lttb/typed-actions/tree/v0.9.1) (2018-07-30)
+
+[Full Changelog](https://github.com/lttb/typed-actions/compare/v0.9.0...v0.9.1)
+
 ## [v0.9.0](https://github.com/lttb/typed-actions/tree/v0.9.0) (2018-07-30)
 
 [Full Changelog](https://github.com/lttb/typed-actions/compare/v0.8.0...v0.9.0)

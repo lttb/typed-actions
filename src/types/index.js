@@ -1,8 +1,6 @@
 /* @flow */
 
-export type ArgumentType = <T, R>((T) => R) => T & T
-
-export type ReturnType = <T, R>((...args: T) => R) => R
+export * from './deprecated'
 
 /* eslint-disable no-use-before-define */
 export type Frozen<V> = $ReadOnly<FrozenMapper<V>>
@@ -66,6 +64,12 @@ export type Actions<Collection> = $ObjMap<$ObjMapi<Collection, <
   & (((...args: [A, B]) => R) => (A, B) => Action<K, R>)
   & (((...args: [A]) => R) => (A) => Action<K, R>)
 , V>>, typeof locate>
+
+export type _ActionOf = <T, R>((...args: T) => R) => Frozen<R>
+export type ActionOf<A> = $Call<_ActionOf, A>
+
+export type _ActionsOf = <AC>(AC) => $Values<$ObjMap<AC, _ActionOf>>
+export type ActionsOf<ActionCollection> = $Call<_ActionsOf, ActionCollection>;
 
 export type SafeExact =
   & (<V: Object>(V) => $Exact<V>)

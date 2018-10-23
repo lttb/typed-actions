@@ -11,9 +11,43 @@ import {
   errorAction,
   errorMetaAction,
   opaqueArity3,
+  type Actions,
 } from './actions'
 
 import type { A, B } from './types'
+import type { ActionOf, ActionsOf } from '..'
+
+(() => {
+  /**
+   * Check
+   */
+  type Action = ActionsOf<Actions>
+  type InitAction = ActionOf<typeof init>
+  type ErrorAction = ActionOf<typeof errorAction>
+
+  const initAction = init();
+  (initAction: InitAction);
+  (initAction: Action);
+
+  /**
+   * $ExpectError
+   *
+   * Incompatible type
+   */
+  (initAction: ErrorAction);
+
+  /**
+   * It should work with the correct type
+   */
+  ({ type: '@namespace/ERROR', payload: 'x', error: true }: Action);
+
+  /**
+   * $ExpectError
+   *
+   * Incompatible type
+   */
+  ({ type: '@namespace/ERROR', payload: 1, error: true }: Action)
+})()
 
 {
   declare var a: A

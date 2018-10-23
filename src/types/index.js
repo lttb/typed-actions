@@ -67,6 +67,14 @@ export type Actions<Collection> = $ObjMap<$ObjMapi<Collection, <
   & (((...args: [A]) => R) => (A) => Action<K, R>)
 , V>>, typeof locate>
 
+declare function _actionOf<T, R>((...args: T) => R): Frozen<R>
+export type _ActionOf = typeof _actionOf
+export type ActionOf<A> = $Call<_ActionOf, A>
+
+export type ActionsOf<ActionCollection> = $Values<
+    $ObjMap<ActionCollection, <T, R>((...args: T) => R) => Frozen<R>>
+>;
+
 export type SafeExact =
   & (<V: Object>(V) => $Exact<V>)
   & (<V>(V) => V)

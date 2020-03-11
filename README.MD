@@ -39,6 +39,7 @@ Actions are compatible with [Flux Standard Action](https://github.com/redux-util
 
 ```js
 import {createActions, action, empty} from 'typed-actions'
+import type {EntityId} from '../types';
 
 /**
  * Declare Action Types as constants and export them
@@ -56,13 +57,13 @@ const actions = createActions({
      */
     [UPDATE]: empty,
     /**
-     * {type: UPDATE_FULFILLED, payload: string[]}
+     * {type: UPDATE_FULFILLED, payload: EntityId[]}
      */
-    [UPDATE_FULFILLED]: (x: string[]) => action(x),
+    [UPDATE_FULFILLED]: (x: EntityId[]) => action(x),
     /**
-     * {type: UPDATE_FAILED, payload: string, meta: {sync: true}}
+     * {type: UPDATE_FAILED, payload: EntityId, meta: {sync: true}}
      */
-    [UPDATE_FAILED]: (x: string) => action(x, {sync: true}),
+    [UPDATE_FAILED]: (x: EntityId) => action(x, {sync: true}),
 })
 
 /**
@@ -91,8 +92,8 @@ export const {
     [UPDATE_FAILED]: updateFailed,
 } = actions = createActions({
     [UPDATE]: empty,
-    [UPDATE_FULFILLED]: (x: string[]) => action(x)
-    [UPDATE_FAILED]: (x: string) => action(x, {sync: true}),
+    [UPDATE_FULFILLED]: (x: EntityId[]) => action(x)
+    [UPDATE_FAILED]: (x: EntityId) => action(x, {sync: true}),
 })
 
 export type Actions = typeof actions
@@ -102,6 +103,7 @@ export type Actions = typeof actions
 
 ```js
 import {handleActions, type Handlers, type Frozen} from 'typed-actions';
+import type {EntityId} from '../types';
 
 /**
  * Import action types with Actions Collection Type
@@ -117,7 +119,7 @@ import {
  * Declare State for the reducer
  */
 export type State = {
-    data: string[],
+    data: EntityId[],
     status: 'done' | 'pending' | 'failed',
 };
 
@@ -137,7 +139,7 @@ export default handleActions(({
 
     /**
      * The second argument (action) will also have the right type
-     * {type: UPDATE_FULFILLED, payload: string[]}
+     * {type: UPDATE_FULFILLED, payload: EntityId[]}
      */
     [UPDATE_FULFILLED]: (state, {payload}) => ({
         ...state,
@@ -160,6 +162,7 @@ You can use [immer](https://github.com/mweststrate/immer) for immutable state mo
 
 ```js
 import { type Handlers, handleActions } from 'typed-actions/immer'
+import type {EntityId} from '../types';
 
 import {
     type Actions,
@@ -169,7 +172,7 @@ import {
 } from './actions';
 
 export type State = {
-    data: string[],
+    data: EntityId[],
     status: 'done' | 'pending' | 'failed',
 };
 
@@ -214,14 +217,14 @@ export const updateEpic: Epic<State, Actions> = action$ => action$
 export const unionEpic: Epic<State, Actions> = action$ => action$
     .ofType(UPDATE, UPDATE_FULFILLED)
     /**
-     * {type: UPDATE} | {type: UPDATE_FULFILLED, payload: string[]}
+     * {type: UPDATE} | {type: UPDATE_FULFILLED, payload: EntityId[]}
      */
     .map(action => {
         if (action.type === UPDATE_FULFILLED) {
             /**
              * Type Refinement will work as well
              *
-             * {type: UPDATE_FULFILLED, payload: string[]}
+             * {type: UPDATE_FULFILLED, payload: EntityId[]}
              */
             console.log(action.payload)
         }

@@ -14,4 +14,4 @@ export type Handlers<S extends unknown, A extends AbstractActions> = {
     [K in keyof A]?: (state: S, action: ReturnType<A[K]>) => void;
 }
 
-export declare function handleActions<T extends Handlers<any, AbstractActions>>(arg: T): Reducer<ExtractStateFromHandlers<T>, ExtractActionsFromHandlers<T>>
+export declare function handleActions<T extends Handlers<any, AbstractActions>>(arg: T, state?: ExtractStateFromHandlers<T>): Reducer<ExtractStateFromHandlers<T>, ExtractActionsFromHandlers<T>>

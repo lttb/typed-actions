@@ -35,6 +35,6 @@ export type Handlers<S, A extends AbstractActions> = {
     [K in keyof A]?: (state: S, action: ReturnType<A[K]>) => $Exact<S>
 };
 
-declare function handleActions<T extends Handlers<any, AbstractActions>>(arg: T): Reducer<ExtractStateFromHandlers<T>, ExtractActionsFromHandlers<T>>
+declare function handleActions<T extends Handlers<any, AbstractActions>>(arg: T, state?: ExtractStateFromHandlers<T>): Reducer<ExtractStateFromHandlers<T>, ExtractActionsFromHandlers<T>>
 
 export {action, error, empty, createActions, handleActions}

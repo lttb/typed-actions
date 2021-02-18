@@ -1,4 +1,4 @@
-import {UPDATE, UPDATE_FULFILLED, UPDATE_FAILED} from './actions'
+import {UPDATE, UPDATE_FULFILLED, UPDATE_FAILED, BOOL_ACTION} from './actions'
 import type {State, Actions} from './actions'
 import {handleActions} from '../index'
 import type {Handlers} from '../index'
@@ -52,3 +52,19 @@ export const reducer_6 = handleActions({
     unknownField: true,
   }),
 } as Handlers<State, Actions>)
+
+type BoolState = boolean;
+
+// accepts the second argument the same type as state
+export const bool_reducer_1 = handleActions({
+    [BOOL_ACTION]: (state, {payload}) => state && payload,
+} as Handlers<BoolState, Actions>, false)
+
+// does not accept the second argument that's not of type State
+export const bool_reducer_2 = handleActions(
+    {
+        [BOOL_ACTION]: (state, {payload}) => state && payload,
+    } as Handlers<BoolState, Actions>,
+    // @ts-expect-error Argument of type '"string"' is not assignable to parameter of type 'boolean | undefined'.
+    'string',
+)

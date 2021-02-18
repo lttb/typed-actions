@@ -24,11 +24,17 @@ declare function empty(): {type: string};
 declare function createActions<T extends AbstractActions>(
     arg: T,
 ): {
-    [K in keyof T]: Parameters<T[K]> extends [infer P, infer M]
-        ? (arg: P, meta: M) => {type: K; payload: P; meta: M}
-        : Parameters<T[K]> extends [infer P]
-        ? (arg: P) => {type: K; payload: P}
-        : () => {type: K};
+    [K in keyof T]: ReturnType<T[K]> extends {error: true}
+        ? Parameters<T[K]> extends [infer P, infer M]
+            ? (arg: P, meta: M) => {type: K, payload: P, meta: M, error: true}
+            : Parameters<T[K]> extends [infer P]
+                ? (arg: P) => {type: K, payload: P, error: true}
+                : () => {type: K, payload: undefined, error: true}
+        : Parameters<T[K]> extends [infer P, infer M]
+            ? (arg: P, meta: M) => {type: K; payload: P; meta: M}
+            : Parameters<T[K]> extends [infer P]
+                ? (arg: P) => {type: K; payload: P}
+                : () => {type: K};
 };
 
 export type Handlers<S, A extends AbstractActions> = {

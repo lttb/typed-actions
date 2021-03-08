@@ -1,5 +1,7 @@
 import type {Reducer} from 'redux-actions';
 
+export * from './types';
+
 // utils
 type AbstractActions = Record<string, (...args: any) => any>;
 type $Exact<T> = T & {[key in string]?: T[keyof T] | never};

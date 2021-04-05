@@ -184,7 +184,7 @@ export default handleActions(({
     [UPDATE_FULFILLED]: (state, {payload}) => {
         state.data = payload
         state.status = 'done'
-    }),
+    },
 
     [UPDATE_FAILED]: state => {
         state.status = 'failed'

@@ -3,6 +3,7 @@
   "version": "0.10.0",
   "description": "Typed actions for redux",
   "main": "index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lttb/typed-actions.git"
@@ -17,12 +18,14 @@
     "clean": "rimraf lib",
     "prebuild": "npm run clean",
     "build": "BABEL_ENV=production babel src --ignore '**/tests/**' --out-dir lib",
-    "postbuild": "npm run cp:flow && npm run cp:meta",
+    "postbuild": "npm run cp:flow && npm run cp:meta && npm run cp:d.ts",
     "cp:meta": "copyfiles -e '**/tests/**' package.json README.md LICENSE 'src/.*' -a -f lib",
+    "cp:d.ts": "copyfiles -e '**/tests/**' dts/*.d.ts -f lib/.",
     "cp:flow": "flow-copy-source -i '**/tests/*' src lib",
-    "lint": "npm run lint:eslint && npm run lint:flow",
+    "lint": "npm run lint:eslint && npm run lint:flow && npm run lint:typescript",
     "lint:eslint": "eslint .",
     "lint:flow": "flow check --include-warnings --show-all-errors --max-warnings 0",
+    "lint:typescript": "tsc",
     "preversion": "npm run lint",
     "version": "npm run build",
     "postversion": "git push --follow-tags && npm publish lib",
@@ -47,9 +50,11 @@
     "flow-copy-source": "^2.0.2",
     "flow-typed": "^2.3.0",
     "husky": "^1.1.2",
-    "lint-staged": "^7.3.0"
+    "lint-staged": "^7.3.0",
+    "typescript": "^4.1.4"
   },
   "dependencies": {
+    "@types/redux-actions": "^2.6.1",
     "redux-actions": "^2.2.1"
   },
   "optionalDependencies": {
